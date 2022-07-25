@@ -1,4 +1,6 @@
 require 'csv'
+require 'json'
+require './item'
 
 if ARGV.length != 2
   puts "Error: please pass the fridge csv list file as the first argument"
@@ -8,8 +10,8 @@ if ARGV.length != 2
   exit
 end
 
-fridge_csv_list_file = ARGV[0]
-json_recipe_data_file = ARGV[1]
+items = CSV.read(ARGV[0]).collect { |row| Item.new(*row) }
+puts items.inspect
 
-puts ARGV[0]
-puts ARGV[1]
+json_recipe_data_file = File.read(ARGV[1])
+puts recipes = JSON.parse(json_recipe_data_file)
