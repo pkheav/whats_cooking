@@ -1,7 +1,7 @@
 require 'date'
 
 class Item
-  def initializer(name, quantity, unit, use_by_date)
+  def initialize(name, quantity, unit, use_by_date)
     @name = name
     # use .to_i to allow both string and integer values to be passed
     @quantity = quantity.to_i
