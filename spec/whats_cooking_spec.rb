@@ -1,20 +1,8 @@
-require './whats_cooking'
-
-def capture_stdout(&block)
-  original_stdout = $stdout
-  $stdout = fake = StringIO.new
-  begin
-    yield
-  ensure
-    $stdout = original_stdout
-  end
-  fake.string
-end
+require './lib/whats_cooking'
 
 describe WhatsCooking do
-  context "When testing the WhatsCooking class" do
-    # it "Should return WhatsCooking" do
-    #   true.should eq(false)
-    # end
+  it "should return the best recipes to cook based on items in the fridge csv list and their use by date" do
+    whats_cooking = WhatsCooking.new('my-fridge.csv', 'my-recipes.json')
+    expect(whats_cooking.recommend).to eq("Vegemite")
   end
 end
