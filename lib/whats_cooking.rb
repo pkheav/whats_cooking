@@ -10,12 +10,16 @@ class WhatsCooking
     @recipes = self.class.json_file_to_recipes(json_recipe_data_file_path)
   end
 
-  # Read the fridge csv list file and convert it into an aray of items
+  # Read the fridge csv list file and convert it into an array of items
   def self.csv_file_to_items(csv_file_path)
-    CSV.read(ARGV[0]).collect { |row| Item.new(*row) }
+    CSV.read(csv_file_path).collect { |row| Item.new(*row) }
   end
 
   def self.json_file_to_recipes(json_recipe_data_file_path)
     JSON.parse(File.read(json_recipe_data_file_path))
+  end
+
+  def recommend
+    "WIP"
   end
 end
