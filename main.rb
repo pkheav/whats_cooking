@@ -14,4 +14,4 @@ whats_cooking = WhatsCooking.new(*ARGV)
 
 puts whats_cooking.items.inspect
 puts whats_cooking.recipes
-puts whats_cooking.recommendations
+puts whats_cooking.recommend
