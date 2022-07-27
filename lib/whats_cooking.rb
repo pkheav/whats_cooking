@@ -23,8 +23,6 @@ class WhatsCooking
   end
 
   def recommend
-    # Default recipe that will be recommended if there are no possible recipes
-    recommended_recipe = 'Call for takeout'
     # Create a hash of all the items with the name as the key and item object as the value
     # for quicker referencing of items/ingredients
     @usable_items_by_name = {}
@@ -32,18 +30,44 @@ class WhatsCooking
     # Filter out any items if it is passed their use by date as we can't use them
     items.each { |i| @usable_items_by_name[i.name] = i if i.use_by_date > today }
 
-    recommended_recipe
+    recommended_recipe = nil
+    earliest_recipe_use_by_date = nil
+    recipes.each do |r|
+      next unless recipe_use_by_date = recipe_possible?(r)
+
+      recommended_recipe ||= r
+      earliest_recipe_use_by_date ||= recipe_use_by_date
+
+      if recipe_use_by_date < earliest_recipe_use_by_date
+        recommended_recipe = r
+        earliest_recipe_use_by_date = recipe_use_by_date
+      end
+    end
+
+    # Suggest takeout if there isn't a recommended recipe
+    recommended_recipe&.dig('name') || 'Call for takeout'
   end
 
   # Check if we have a usable item for every ingredient in the recipe
-  def possible_recipe?(recipe)
-    recipe['ingredients'].all? { |i| usable_item?(i) }
+  # and return's the earliest use by date
+  # returns nil otherwise
+  def recipe_possible?(recipe)
+    earliest_item_use_by_date = nil
+    recipe['ingredients'].each do |i|
+      # return nil as soon as we don't have an item needed by the recipe
+      return unless item_use_by_date = usable_item?(i)
+      earliest_item_use_by_date ||= item_use_by_date
+      if item_use_by_date < earliest_item_use_by_date
+        earliest_item_use_by_date = item_use_by_date
+      end
+    end
+    earliest_item_use_by_date
   end
 
-  # Takes in an ingredient from a recipe and returns whether or not we have a usable item for it
+  # Takes in an ingredient from a recipe and returns the item's use by date if we have it
+  # returns nil otherwise
   private def usable_item?(ingredient)
-    puts ingredient['item']
-    puts @usable_items_by_name[ingredient['item']]
-    @usable_items_by_name[ingredient['item']]
+    return unless usable_item = @usable_items_by_name[ingredient['item']]
+    usable_item.use_by_date if usable_item.quantity > ingredient['quantity'].to_f
   end
 end
