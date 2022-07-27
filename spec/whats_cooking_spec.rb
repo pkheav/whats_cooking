@@ -15,17 +15,17 @@ describe WhatsCooking do
     end
   end
 
-  context "when we have expired vegemite" do
+  context "when we have expired vegemite and expired peanut butter" do
     it "should suggest getting takeout" do
-      whats_cooking = WhatsCooking.new('my-fridge-expired-vegemite.csv', 'my-recipes.json')
+      whats_cooking = WhatsCooking.new('my-fridge-expired-spreads.csv', 'my-recipes.json')
       expect(whats_cooking.recommend).to eq('Call for takeout')
     end
   end
 
-  context "when we have enough ingredients for both recipes but cheese is the closest to expiring" do
+  context "when we have enough ingredients for both recipes but peanut butter is the closest to expiring" do
     it "should return Toasted Cheese as the recommended recipe" do
-      whats_cooking = WhatsCooking.new('my-fridge-vegemite-almost-expired.csv', 'my-recipes.json')
-      expect(whats_cooking.recommend).to eq('Toasted Cheese')
+      whats_cooking = WhatsCooking.new('my-fridge-peanut-almost-expired.csv', 'my-recipes.json')
+      expect(whats_cooking.recommend).to eq('Peanut Butter Sandwich')
     end
   end
 end

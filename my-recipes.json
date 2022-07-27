@@ -28,5 +28,20 @@
               "unit-of-measure": "grams"
           }
       ]
-  }
+  },
+  {
+    "name": "Peanut Butter Sandwich",
+    "ingredients": [
+        {
+            "item": "bread",
+            "quantity": "2",
+            "unit-of-measure": "slices"
+        },
+        {
+            "item": "peanut butter",
+            "quantity": "100",
+            "unit-of-measure": "grams"
+        }
+    ]
+}
 ]
