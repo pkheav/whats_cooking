@@ -8,7 +8,7 @@ describe WhatsCooking do
     end
   end
 
-  context "when we don't have enough bread in the fridge for either sandwich recipes" do
+  context "when we don't have enough bread in the fridge for all sandwich recipes" do
     it "should suggest getting takeout" do
       whats_cooking = WhatsCooking.new('my-fridge-one-bread.csv', 'my-recipes.json')
       expect(whats_cooking.recommend).to eq('Call for takeout')
@@ -22,7 +22,7 @@ describe WhatsCooking do
     end
   end
 
-  context "when we have enough ingredients for both recipes but peanut butter is the closest to expiring" do
+  context "when we have enough ingredients for all recipes but peanut butter is the closest to expiring" do
     it "should return Toasted Cheese as the recommended recipe" do
       whats_cooking = WhatsCooking.new('my-fridge-peanut-almost-expired.csv', 'my-recipes.json')
       expect(whats_cooking.recommend).to eq('Peanut Butter Sandwich')
