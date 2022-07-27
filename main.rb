@@ -10,4 +10,4 @@ end
 
 # * is the splat operator and allows an array to be unpacked
 # so it can be passed as args to a function
-put WhatsCooking.new(*ARGV).recommend
+puts WhatsCooking.new(*ARGV).recommend
