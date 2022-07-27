@@ -67,7 +67,12 @@ class WhatsCooking
   # Takes in an ingredient from a recipe and returns the item's use by date if we have it
   # returns nil otherwise
   private def usable_item?(ingredient)
+    # return nil if we don't have the item
     return unless usable_item = @usable_items_by_name[ingredient['item']]
-    usable_item.use_by_date if usable_item.quantity > ingredient['quantity'].to_f
+    # Also, return nil if we don't have enough of the item required by the recipe
+    # and if the units don't match up
+    if usable_item.quantity > ingredient['quantity'].to_f && usable_item.unit == ingredient['unit-of-measure']
+      usable_item.use_by_date
+    end
   end
 end
