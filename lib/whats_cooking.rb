@@ -34,11 +34,16 @@ class WhatsCooking
     recommended_recipe = nil
     earliest_recipe_use_by_date = nil
     recipes.each do |r|
+      # Skip the current recipe if we don't have usable items for every ingredient
       next unless recipe_use_by_date = recipe_possible?(r)
 
+      # If recommended_recipe and earliest_recipe_use_by_date haven't been initialised yet
+      # Set them using values from the first recipe
       recommended_recipe ||= r
       earliest_recipe_use_by_date ||= recipe_use_by_date
 
+      # If the current recipe has an item with an earlier use by date than previous recipes,
+      # set that as the recommended recipe
       if recipe_use_by_date < earliest_recipe_use_by_date
         recommended_recipe = r
         earliest_recipe_use_by_date = recipe_use_by_date
@@ -50,7 +55,7 @@ class WhatsCooking
   end
 
   # Check if we have a usable item for every ingredient in the recipe
-  # and return's the earliest use by date
+  # and returns the earliest use by date of an item if we do
   # returns nil otherwise
   def recipe_possible?(recipe)
     earliest_item_use_by_date = nil
@@ -58,6 +63,9 @@ class WhatsCooking
       # return nil as soon as we don't have an item needed by the recipe
       return unless item_use_by_date = usable_item?(i)
       earliest_item_use_by_date ||= item_use_by_date
+
+      # If the current item has an earlier use by date than previous items,
+      # store that item's use by date in earliest_item_use_by_date
       if item_use_by_date < earliest_item_use_by_date
         earliest_item_use_by_date = item_use_by_date
       end
