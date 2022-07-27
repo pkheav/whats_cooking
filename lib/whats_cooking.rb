@@ -28,7 +28,8 @@ class WhatsCooking
     @usable_items_by_name = {}
     today = Date.today
     # Filter out any items if it is passed their use by date as we can't use them
-    items.each { |i| @usable_items_by_name[i.name] = i if i.use_by_date > today }
+    # Items that have a use by date as today are still usable
+    items.each { |i| @usable_items_by_name[i.name] = i if i.use_by_date >= today }
 
     recommended_recipe = nil
     earliest_recipe_use_by_date = nil
@@ -71,7 +72,7 @@ class WhatsCooking
     return unless usable_item = @usable_items_by_name[ingredient['item']]
     # Also, return nil if we don't have enough of the item required by the recipe
     # and if the units don't match up
-    if usable_item.quantity > ingredient['quantity'].to_f && usable_item.unit == ingredient['unit-of-measure']
+    if usable_item.quantity >= ingredient['quantity'].to_f && usable_item.unit == ingredient['unit-of-measure']
       usable_item.use_by_date
     end
   end
